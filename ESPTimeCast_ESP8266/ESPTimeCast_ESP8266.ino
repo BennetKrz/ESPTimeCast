@@ -1025,6 +1025,18 @@ void setupWebServer() {
     request->send(200, "application/json", "{\"ok\":true}");
   });
 
+  server.on("/get_brightness", HTTP_GET, [](AsyncWebServerRequest *request) {
+    String json = "{ \"brightness\": \"";
+
+    json += String(brightness);
+    json += "\", \"off\": ";
+
+    json += (displayOff | displayOffByBrightness || displayOffByDimming) ? "true" : "false";
+
+    json += "}";
+    request->send(200, "application/json", json);
+  });
+
   server.on("/set_flip", HTTP_POST, [](AsyncWebServerRequest *request) {
     bool flip = false;
     if (request->hasParam("value", true)) {
