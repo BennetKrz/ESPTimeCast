@@ -169,6 +169,15 @@ const unsigned long descriptionDuration = 3000;    // 3s for short text
 static unsigned long descScrollEndTime = 0;        // for post-scroll delay (re-used for scroll timing)
 const unsigned long descriptionScrollPause = 300;  // 300ms pause after scroll
 
+String formatUptime(unsigned long seconds);
+void saveCustomMessageToConfig(const char *msg);
+bool saveCountdownConfig(bool enabled, time_t targetTimestamp, const String &label);
+void advanceDisplayModeSafe();
+void advanceDisplayMode();
+void saveUptime();
+String formatTotalRuntime();
+unsigned long getTotalRuntimeSeconds();
+
 // --- Safe WiFi credential and API getters ---
 const char *getSafeSsid() {
   if (isAPMode && strlen(ssid) == 0) {
@@ -2057,6 +2066,9 @@ void loadUptime() {
 // -----------------------------
 // Save uptime to LittleFS
 // -----------------------------
+String formatTotalRuntime();
+unsigned long getTotalRuntimeSeconds();
+
 void saveUptime() {
   // Use getTotalRuntimeSeconds() to include current session
   totalUptimeSeconds = getTotalRuntimeSeconds();
@@ -2145,7 +2157,7 @@ String formatUptime(unsigned long seconds) {
   return String(buf);
 }
 
-
+void ensureHtmlFileExists();
 // -----------------------------------------------------------------------------
 // Main setup() and loop()
 // -----------------------------------------------------------------------------
